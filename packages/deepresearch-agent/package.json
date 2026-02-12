@@ -1,0 +1,38 @@
+{
+	"name": "@mariozechner/pi-deepresearch-agent",
+	"version": "0.52.9",
+	"description": "Deep research agent session wrapper and research tools on top of pi-agent-core",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"bin": {
+		"pi-deepresearch": "./dist/cli.js"
+	},
+	"files": ["dist", "README.md", "CHANGELOG.md"],
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "tsgo -p tsconfig.build.json",
+		"dev": "tsgo -p tsconfig.build.json --watch --preserveWatchOutput",
+		"prepublishOnly": "npm run clean && npm run build"
+	},
+	"dependencies": {
+		"@mariozechner/pi-agent-core": "^0.52.9",
+		"@mariozechner/pi-ai": "^0.52.9",
+		"@sinclair/typebox": "0.34.47"
+	},
+	"devDependencies": {
+		"@types/node": "^24.3.0",
+		"typescript": "^5.7.3"
+	},
+	"keywords": ["deep-research", "agent", "llm", "research", "papers"],
+	"author": "Mario Zechner",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/badlogic/pi-mono.git",
+		"directory": "packages/deepresearch-agent"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	}
+}

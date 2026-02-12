@@ -360,14 +360,6 @@
           // Always show current leaf
           if (isCurrentLeaf) return true;
 
-          // Hide assistant messages with only tool calls (no text) unless error/aborted
-          if (entry.type === 'message' && entry.message.role === 'assistant') {
-            const msg = entry.message;
-            const hasText = hasTextContent(msg.content);
-            const isErrorOrAborted = msg.stopReason && msg.stopReason !== 'stop' && msg.stopReason !== 'toolUse';
-            if (!hasText && !isErrorOrAborted) return false;
-          }
-
           // Apply filter mode
           const isSettingsEntry = ['label', 'custom', 'model_change', 'thinking_level_change'].includes(entry.type);
           let passesFilter = true;
@@ -386,7 +378,14 @@
               passesFilter = true;
               break;
             default: // 'default'
-              passesFilter = !isSettingsEntry;
+              // Hide assistant messages with only tool calls (no text) unless error/aborted
+              if (entry.type === 'message' && entry.message.role === 'assistant') {
+                const msg = entry.message;
+                const hasText = hasTextContent(msg.content);
+                const isErrorOrAborted = msg.stopReason && msg.stopReason !== 'stop' && msg.stopReason !== 'toolUse';
+                if (!hasText && !isErrorOrAborted) passesFilter = false;
+              }
+              passesFilter = passesFilter && !isSettingsEntry;
               break;
           }
 
